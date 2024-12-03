@@ -4,7 +4,7 @@ import numpy as np
 
 # Configura la ruta de Tesseract-OCR en tu sistema
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'  # Cambia esta ruta según tu instalación
-
+placasCarros = []
 def detect_yellow_plate(image_path):
     # Leer la imagen
     image = cv2.imread(image_path)
@@ -33,6 +33,7 @@ def detect_yellow_plate(image_path):
             # Aplicar OCR en la región de la placa
             plate_text = pytesseract.image_to_string(gray_plate, config='--psm 8')
             print("Texto de la placa:", plate_text.strip())
+            placasCarros.append(plate_text)
             # Dibujar el contorno de la placa en la imagen original
             cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 3)
     
@@ -48,7 +49,9 @@ def detect_yellow_plate(image_path):
         return None
 
 # Ejemplo de uso
-texto_placa = detect_yellow_plate('static/fotomulta2.jpg')
-print("Texto de la placa extraída:", texto_placa)
+texto_placa = detect_yellow_plate('static/fotomulta.jpg')
+for placa in placasCarros:
+    print("Placa detectada:",placa)    
+
 
 
